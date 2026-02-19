@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutas - GravelExpedition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+    <header class="main-header">
+        <div class="brand">🚴 GravelExpedition</div>
+        <div class="user-profile">
+            <span>Hola, <strong>Adair Cosmes</strong></span>
+            <img src="img/usuario.png" alt="Avatar" class="avatar">
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="app.html">Tablero</a></li>
+                <li><a href="actividades.html">Mis Actividades</a></li>
+                <li><a href="rutas.html" class="active">Mapas / Rutas</a></li>
+                <li><a href="entrenamiento.html">Entrenamiento</a></li>
+                <li><a href="index.html" class="logout">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <section class="feed-content">
+            <h2>🗺️ Explorador de Rutas</h2>
+            
+            <article class="activity-card">
+                <h3>Mapa de la Sierra Norte</h3>
+                <div style="background: #a8dadc; height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-top: 15px;">
+                    <span style="color: #457b9d; font-weight: bold;">
+                        📍 Simulación: Mapa GPS Cargado
+                    </span>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn-main" style="width: auto; padding: 10px 20px; background: #fc4c02;">Descargar GPX</button>
+                </div>
+            </article>
+
+            <article class="activity-card">
+                <h3>Rutas Guardadas</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
+                        <span>Monte Albán - Sendero Norte (25km)</span>
+                        <strong style="color: #fc4c02;">Ver ></strong>
+                    </li>
+                    <li style="padding: 10px 0; display: flex; justify-content: space-between;">
+                        <span>Hierve el Agua Loop (68km)</span>
+                        <strong style="color: #fc4c02;">Ver ></strong>
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <aside class="sidebar-right">
+            <div class="widget">
+                <h3>🏆 Tus Retos</h3>
+                <ul class="club-list"><li>Gran Fondo Oaxaca</li></ul>
+            </div>
+        </aside>
+    </div>
+    
+    <footer class="main-footer"><p>&copy; 2026 GravelExpedition</p></footer>
+</body>
+</html>

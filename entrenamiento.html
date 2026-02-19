@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento - GravelExpedition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+    <header class="main-header">
+        <div class="brand">🚴 GravelExpedition</div>
+        <div class="user-profile">
+            <span>Hola, <strong>Adair Cosmes</strong></span>
+            <img src="img/usuario.png" alt="Avatar" class="avatar">
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="app.html">Tablero</a></li>
+                <li><a href="actividades.html">Mis Actividades</a></li>
+                <li><a href="rutas.html">Mapas / Rutas</a></li>
+                <li><a href="entrenamiento.html" class="active">Entrenamiento</a></li>
+                <li><a href="index.html" class="logout">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <section class="feed-content">
+            <h2>💪 Plan Semanal</h2>
+            
+            <article class="activity-card">
+                <h3>Estado de Forma</h3>
+                <p>Fatiga acumulada: <strong>85%</strong> (Alta)</p>
+                <div class="progress-bar"><div class="fill" style="width: 85%; background: #d63031;"></div></div>
+            </article>
+
+            <article class="activity-card">
+                <h3>Calendario</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <tr style="background: #f1f2f6; text-align: left;">
+                        <th style="padding: 10px;">Día</th>
+                        <th style="padding: 10px;">Actividad</th>
+                        <th style="padding: 10px;">Estado</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px;">Lunes</td>
+                        <td style="padding: 10px;">Descanso Activo</td>
+                        <td style="padding: 10px; color: green;">✔ Listo</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px;">Martes</td>
+                        <td style="padding: 10px;">Series VO2 Max</td>
+                        <td style="padding: 10px; color: green;">✔ Listo</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;">Miércoles</td>
+                        <td style="padding: 10px;">Rodaje Zona 2</td>
+                        <td style="padding: 10px; color: orange;">⏳ Pendiente</td>
+                    </tr>
+                </table>
+            </article>
+        </section>
+
+        <aside class="sidebar-right">
+            <div class="widget">
+                <h3>📊 Estadísticas</h3>
+                <div class="weekly-stat">
+                    <span>Semana 4</span>
+                    <small>Carga Alta</small>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <footer class="main-footer"><p>&copy; 2026 GravelExpedition</p></footer>
+</body>
+</html>

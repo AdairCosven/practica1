@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GravelExpedition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+
+    <header class="main-header">
+        <div class="brand">
+            🚴 GravelExpedition
+        </div>
+        <div class="user-profile">
+            <span>Hola, <strong>Adair Cosmes</strong></span>
+            <img src="img/usuario.png" alt="Avatar" class="avatar">
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="app.html" class="active">Tablero</a></li>
+                <li><a href="actividades.html">Mis Actividades</a></li>
+                <li><a href="rutas.html">Mapas / Rutas</a></li>
+                <li><a href="entrenamiento.html">Entrenamiento</a></li>
+                <li><a href="index.html" class="logout">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <section class="feed-content">
+            <h2>Tu Actividad Reciente</h2>
+
+            <article class="activity-card">
+                <div class="activity-header">
+                    <img src=" " alt="Avatar" class="mini-avatar">
+                    <div>
+                        <h3>Adair Cosmes</h3>
+                        <span class="date">Hoy a las 7:30 AM • Oaxaca, Oax.</span>
+                    </div>
+                </div>
+                
+                <h4>Ruta Matutina Sierra Norte 🌲</h4>
+                <p>Una salida tranquila probando la transmisión nueva. Mucha neblina pero excelente terreno.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat">
+                        <span class="label">Distancia</span>
+                        <span class="value">45.2 km</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Desnivel</span>
+                        <span class="value">1,200 m</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Tiempo</span>
+                        <span class="value">2h 15m</span>
+                    </div>
+                </div>
+
+                <div class="map-placeholder">
+                    <span>🗺️ Visualización del Mapa GPS</span>
+                </div>
+            </article>
+
+            <article class="activity-card">
+                <div class="activity-header">
+                    <img src="" alt="Avatar" class="mini-avatar">
+                    <div>
+                        <h3>Adair Cosmes</h3>
+                        <span class="date">Ayer • Entrenamiento</span>
+                    </div>
+                </div>
+                <h4>Sprints en el Llano ⚡</h4>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <span class="label">Distancia</span>
+                        <span class="value">20.0 km</span>
+                    </div>
+                    <div class="stat">
+                        <span class="label">Potencia Prom</span>
+                        <span class="value">210 W</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <aside class="sidebar-right">
+            <div class="widget">
+                <h3>📊 Estadísticas Semanales</h3>
+                <div class="weekly-stat">
+                    <span>Kilómetros</span>
+                    <div class="progress-bar"><div class="fill" style="width: 70%"></div></div>
+                    <small>65km / 100km</small>
+                </div>
+            </div>
+
+            <div class="widget">
+                <h3>🏆 Tus Retos</h3>
+                <ul class="club-list">
+                    <li>Gran Fondo Oaxaca (Feb)</li>
+                    <li>Reto de Escalada 5k</li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3>🚴 Tus Clubes</h3>
+                <ul class="club-list">
+                    <li>Gravel México</li>
+                    <li>TecNM Cycling Team</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 GravelExpedition - Proyecto de Programación Web - TecNM Oaxaca</p>
+    </footer>
+
+</body>
+</html>
