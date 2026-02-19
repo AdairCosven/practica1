@@ -87,7 +87,7 @@ input:focus {
 }
 
 .btn-main:hover {
-    background-color: #d35400;
+    background-color: #00d32e;
     transform: translateY(-2px);
 }
 
