@@ -5,7 +5,7 @@
     --dark-bg: #2d3436;       /* Fondo oscuro para el Login */
     --text-dark: #2d3436;
     --text-light: #636e72;
-    --border-color: #e6e6e6;
+    --border-color: #ef3232;
     --white: #ffacac;
 }
 
@@ -27,7 +27,7 @@ body {
     height: 100vh;
     /* Fondo oscuro elegante para el login */
     background-color: var(--dark-bg);
-    background-image: linear-gradient(45deg, #2d3436 0%, #464e52 100%);
+    background-image: linear-gradient(45deg, #6d077d 0%, #464e52 100%);
     margin: 0;
 }
 
