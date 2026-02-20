@@ -1,7 +1,7 @@
 /* --- 1. VARIABLES GLOBALES --- */
 :root {
     --strava-orange: #fc5902; /* Color principal */
-    --body-bg: #f7f7fa;       /* Gris muy claro fondo general */
+    --body-bg: #3b3bb3;       /* Gris muy claro fondo general */
     --dark-bg: #2d3436;       /* Fondo oscuro para el Login */
     --text-dark: #2d3436;
     --text-light: #636e72;
