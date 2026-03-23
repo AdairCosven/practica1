@@ -4,74 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrenamiento - GravelExpedition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="app-body">
-    <header class="main-header">
-        <div class="brand">🚴 GravelExpedition</div>
-        <div class="user-profile">
-            <span>Hola, <strong>Adair Cosmes</strong></span>
-            <img src="img/usuario.png" alt="Avatar" class="avatar">
-        </div>
-    </header>
+<body class="bg-light d-flex flex-column min-vh-100">
 
-    <div class="layout-container">
-        <nav class="main-nav">
-            <ul>
-                <li><a href="app.html">Tablero</a></li>
-                <li><a href="actividades.html">Mis Actividades</a></li>
-                <li><a href="rutas.html">Mapas / Rutas</a></li>
-                <li><a href="entrenamiento.html" class="active">Entrenamiento</a></li>
-                <li><a href="index.html" class="logout">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-
-        <section class="feed-content">
-            <h2>💪 Plan Semanal</h2>
-            
-            <article class="activity-card">
-                <h3>Estado de Forma</h3>
-                <p>Fatiga acumulada: <strong>85%</strong> (Alta)</p>
-                <div class="progress-bar"><div class="fill" style="width: 85%; background: #d63031;"></div></div>
-            </article>
-
-            <article class="activity-card">
-                <h3>Calendario</h3>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                    <tr style="background: #f1f2f6; text-align: left;">
-                        <th style="padding: 10px;">Día</th>
-                        <th style="padding: 10px;">Actividad</th>
-                        <th style="padding: 10px;">Estado</th>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 10px;">Lunes</td>
-                        <td style="padding: 10px;">Descanso Activo</td>
-                        <td style="padding: 10px; color: green;">✔ Listo</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 10px;">Martes</td>
-                        <td style="padding: 10px;">Series VO2 Max</td>
-                        <td style="padding: 10px; color: green;">✔ Listo</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px;">Miércoles</td>
-                        <td style="padding: 10px;">Rodaje Zona 2</td>
-                        <td style="padding: 10px; color: orange;">⏳ Pendiente</td>
-                    </tr>
-                </table>
-            </article>
-        </section>
-
-        <aside class="sidebar-right">
-            <div class="widget">
-                <h3>📊 Estadísticas</h3>
-                <div class="weekly-stat">
-                    <span>Semana 4</span>
-                    <small>Carga Alta</small>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="app.html">🚴 GravelExpedition</a>
+            <div class="d-flex align-items-center text-white">
+                <span class="me-3 d-none d-sm-block">Hola, <strong>Adair Cosmes</strong></span>
+                <img src="img/usuario.png" alt="Avatar" class="rounded-circle bg-light" width="40" height="40">
             </div>
-        </aside>
+        </div>
+    </nav>
+
+    <div class="container flex-grow-1">
+        <div class="row">
+            
+            <nav class="col-md-3 col-lg-2 mb-4">
+                <div class="list-group shadow-sm">
+                    <a href="app.html" class="list-group-item list-group-item-action">Tablero</a>
+                    <a href="actividades.html" class="list-group-item list-group-item-action">Mis Actividades</a>
+                    <a href="rutas.html" class="list-group-item list-group-item-action">Mapas / Rutas</a>
+                    <a href="entrenamiento.html" class="list-group-item list-group-item-action active">Entrenamiento</a>
+                    <a href="index.html" class="list-group-item list-group-item-action text-danger fw-bold mt-2">Cerrar Sesión</a>
+                </div>
+            </nav>
+
+            <section class="col-md-6 col-lg-7 mb-4">
+                <h2 class="h4 mb-3">💪 Plan Semanal</h2>
+                
+                <article class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="h5">Estado de Forma</h3>
+                        <p class="mb-2">Fatiga acumulada: <strong>85%</strong> (Alta)</p>
+                        <div class="progress" style="height: 15px;">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="h5 mb-3">Calendario</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Día</th>
+                                        <th>Actividad</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lunes</td>
+                                        <td>Descanso Activo</td>
+                                        <td class="text-success fw-semibold">✔ Listo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Martes</td>
+                                        <td>Series VO2 Max</td>
+                                        <td class="text-success fw-semibold">✔ Listo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Miércoles</td>
+                                        <td>Rodaje Zona 2</td>
+                                        <td class="text-warning fw-bold">⏳ Pendiente</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="col-md-3 col-lg-3">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="h6 border-bottom pb-2">📊 Estadísticas</h3>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span class="fw-semibold">Semana 4</span>
+                            <small class="text-danger fw-bold">Carga Alta</small>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
     </div>
-    <footer class="main-footer"><p>&copy; 2026 GravelExpedition</p></footer>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto shadow-lg">
+        <p class="mb-0 small">&copy; 2026 GravelExpedition - Proyecto de Programación Web - TecNM Oaxaca</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmxc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

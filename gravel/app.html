@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GravelExpedition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .map-placeholder {
+            background: linear-gradient(135deg, #a8dadc, #457b9d);
+            height: 220px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center;
+            color: white; font-weight: bold; font-size: 1.1rem;
+            margin-top: 15px; letter-spacing: 1px;
+        }
+        .kpi-card {
+            background: #fff; border: 1px solid #e6e6e6;
+            border-radius: 8px; padding: 16px;
+            text-align: center; border-top: 3px solid #fc4c02;
+        }
+        .kpi-card .kpi-value { font-size: 1.6rem; font-weight: 800; color: #2d3436; }
+        .kpi-card .kpi-label { font-size: 0.78rem; color: #636e72; text-transform: uppercase; letter-spacing: 0.5px; }
+        #chartContainer { position: relative; height: 180px; }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #fc4c02, #ff7043);
+            color: white; border-radius: 12px; padding: 28px 24px;
+            margin-bottom: 24px; position: relative; overflow: hidden;
+            animation: pageEnter 0.5s ease both;
+        }
+        .welcome-banner h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+        .welcome-banner p  { opacity: 0.92; margin-bottom: 16px; }
+        .welcome-banner .btn-white {
+            background: white; color: #fc4c02; border: none; border-radius: 8px;
+            padding: 10px 22px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: 0.2s;
+        }
+        .welcome-banner .btn-white:hover { background: #fff3f0; }
+        .welcome-banner .deco { position: absolute; right: -20px; top: -20px; font-size: 7rem; opacity: 0.12; }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: #636e72; }
+        .empty-state i { font-size: 3.5rem; color: #dfe6e9; margin-bottom: 16px; display: block; }
+        .empty-state h4 { color: #2d3436; margin-bottom: 8px; }
+
+        /* Stagger delay para KPI cards */
+        .kpi-card:nth-child(1) { animation-delay: 0.1s; }
+        .kpi-card:nth-child(2) { animation-delay: 0.2s; }
+        .kpi-card:nth-child(3) { animation-delay: 0.3s; }
+        .kpi-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Stagger para activity cards */
+        #contenidoActividades .activity-card:nth-child(1) { animation-delay: 0.2s; }
+        #contenidoActividades .activity-card:nth-child(2) { animation-delay: 0.35s; }
+    </style>
+</head>
+<body class="app-body">
+
+    <header class="main-header">
+        <div class="brand">🚴 GravelExpedition</div>
+        <div class="user-profile">
+            <span>Hola, <strong id="headerNombre">Usuario</strong></span>
+            <img src="img/usuario.png" alt="Avatar" class="avatar">
+        </div>
+    </header>
+
+    <div class="layout-container">
+        <nav class="main-nav">
+            <ul>
+                <li><a href="app.html" class="active"><i class="bi bi-speedometer2 me-2"></i>Tablero</a></li>
+                <li><a href="actividades.html"><i class="bi bi-list-ul me-2"></i>Mis Actividades</a></li>
+                <li><a href="rutas.html"><i class="bi bi-map me-2"></i>Mapas / Rutas</a></li>
+                <li><a href="entrenamiento.html"><i class="bi bi-heart-pulse me-2"></i>Entrenamiento</a></li>
+                <li><a href="index.html" class="logout" id="btnLogout"><i class="bi bi-box-arrow-left me-2"></i>Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+
+        <section class="feed-content">
+
+            <!-- Banner bienvenida primera vez -->
+            <div id="welcomeBanner" class="welcome-banner d-none">
+                <span class="deco">🚴</span>
+                <h3 id="welcomeNombre">¡Bienvenido/a!</h3>
+                <p>Tu cuenta está lista. Empieza registrando tu primera actividad en Gravel Expedition.</p>
+                <button class="btn-white" onclick="window.location.href='actividades.html'">
+                    <i class="bi bi-plus-circle me-2"></i>Agregar mi primera actividad
+                </button>
+            </div>
+
+            <!-- Hero banner con imagen de ciclista -->
+            <div id="dashboardHero" class="dashboard-hero d-none">
+                <div class="hero-date" id="heroFecha"></div>
+                <h2 id="heroSaludo">¡Buenas, ciclista! 🚴</h2>
+                <p id="heroMsg">Revisa tu progreso de hoy y mantén el ritmo.</p>
+            </div>
+
+            <!-- KPIs -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="kpi-card">
+                        <div class="kpi-value" id="kpiKm">0</div>
+                        <div class="kpi-label">km este año</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="kpi-card">
+                        <div class="kpi-value" id="kpiActividades">0</div>
+                        <div class="kpi-label">Actividades</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="kpi-card">
+                        <div class="kpi-value" id="kpiHoras">0h</div>
+                        <div class="kpi-label">Tiempo total</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="kpi-card">
+                        <div class="kpi-value" id="kpiSesiones">0</div>
+                        <div class="kpi-label">Sesiones entreno</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Tu Actividad Reciente</h2>
+            <div id="contenidoActividades"></div>
+
+            <article class="activity-card">
+                <h3><i class="bi bi-bar-chart-line me-2"></i>Kilómetros por Día — Esta Semana</h3>
+                <div id="chartContainer">
+                    <canvas id="graficaSemana"></canvas>
+                </div>
+            </article>
+
+        </section>
+
+        <aside class="sidebar-right">
+            <div class="widget">
+                <h3><i class="bi bi-bar-chart me-1"></i>Estadísticas Semanales</h3>
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Kilómetros</span><span id="statKm">0 / 100 km</span>
+                    </div>
+                    <div class="progress-bar"><div class="fill" id="barKm" style="width:0%;"></div></div>
+                </div>
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Tiempo actividades</span><span id="statTiempoActs">0h</span>
+                    </div>
+                    <div class="progress-bar"><div class="fill" id="barTiempoActs" style="width:0%;"></div></div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                        <span>Tiempo entrenamiento</span><span id="statTiempoEntreno">0h</span>
+                    </div>
+                    <div class="progress-bar"><div class="fill" id="barTiempoEntreno" style="width:0%; background:#636e72;"></div></div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <h3><i class="bi bi-clock me-1"></i>Tiempo Total</h3>
+                <p class="fs-5 fw-bold mb-0" id="tiempoTotal">0h 0min</p>
+                <small class="text-muted">Actividades + Entrenamiento</small>
+            </div>
+
+            <div class="widget">
+                <h3><i class="bi bi-trophy me-1"></i>Tus Retos</h3>
+                <ul class="club-list">
+                    <li>🏁 Gran Fondo Oaxaca (Feb)</li>
+                    <li>⬆️ Reto de Escalada 5k</li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3><i class="bi bi-people me-1"></i>Tus Clubes</h3>
+                <ul class="club-list">
+                    <li>🚵 Gravel México</li>
+                    <li>🎓 TecNM Cycling Team</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 GravelExpedition &mdash; Proyecto de Programación Web &mdash; TecNM Oaxaca</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // ── Sesión ──────────────────────────────────────────────────
+        const sesion = JSON.parse(localStorage.getItem('ge_sesion') || 'null');
+        if (!sesion) window.location.href = 'index.html';
+        document.getElementById('headerNombre').textContent = sesion ? sesion.nombre : 'Usuario';
+
+        // ── Datos reales ────────────────────────────────────────────
+        const actividades = JSON.parse(localStorage.getItem('ge_actividades_' + sesion.usuario) || '[]');
+        const sesionesEnt = JSON.parse(localStorage.getItem('ge_sesiones_'    + sesion.usuario) || '[]');
+
+        // ── Tiempo ──────────────────────────────────────────────────
+        function parsearDuracion(texto) {
+            if (!texto || texto === '—') return 0;
+            let total = 0;
+            const h = texto.match(/(\d+)\s*h/);
+            const m = texto.match(/(\d+)\s*min/);
+            if (h) total += parseInt(h[1]) * 60;
+            if (m) total += parseInt(m[1]);
+            return total;
+        }
+
+        function formatTiempo(min) {
+            if (!min || min === 0) return '0h';
+            const h = Math.floor(min / 60);
+            const m = min % 60;
+            if (h === 0) return m + 'min';
+            if (m === 0) return h + 'h';
+            return h + 'h ' + m + 'min';
+        }
+
+        const minActs    = actividades.reduce((s, a) => s + parseInt(a.minutos || 0), 0);
+        const minEntreno = sesionesEnt.reduce((s, e) => s + parsearDuracion(e.duracion), 0);
+        const minTotal   = minActs + minEntreno;
+        const totalKm    = actividades.reduce((s, a) => s + parseFloat(a.km || 0), 0);
+
+        // ── Contador animado para KPIs ──────────────────────────────
+        function animarContador(elementId, valorFinal, sufijo = '', esTiempo = false) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+
+            if (esTiempo) {
+                // Para tiempo simplemente mostrarlo con animación de fade
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s';
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        el.textContent = valorFinal;
+                        el.style.opacity = '1';
+                    }, 300);
+                }, 400);
+                return;
+            }
+
+            const numFinal = parseFloat(valorFinal);
+            if (isNaN(numFinal) || numFinal === 0) {
+                el.textContent = '0' + sufijo;
+                return;
+            }
+
+            const duracion  = 1200; // ms
+            const pasos     = 50;
+            const intervalo = duracion / pasos;
+            let paso = 0;
+
+            const timer = setInterval(() => {
+                paso++;
+                const progreso = paso / pasos;
+                // Ease out
+                const eased = 1 - Math.pow(1 - progreso, 3);
+                const actual = numFinal * eased;
+
+                el.textContent = (Number.isInteger(numFinal)
+                    ? Math.round(actual)
+                    : actual.toFixed(1)) + sufijo;
+
+                if (paso >= pasos) {
+                    clearInterval(timer);
+                    el.textContent = (Number.isInteger(numFinal)
+                        ? numFinal
+                        : numFinal.toFixed(1)) + sufijo;
+                }
+            }, intervalo);
+        }
+
+        // ── Hero banner ─────────────────────────────────────────────
+        if (actividades.length > 0 || sesionesEnt.length > 0) {
+            const hero = document.getElementById('dashboardHero');
+            hero.classList.remove('d-none');
+
+            const ahora = new Date();
+            const hora  = ahora.getHours();
+            const saludo = hora < 12 ? '¡Buenos días' : hora < 19 ? '¡Buenas tardes' : '¡Buenas noches';
+            const nombre = sesion.nombre.split(' ')[0];
+
+            document.getElementById('heroFecha').textContent =
+                ahora.toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+            document.getElementById('heroSaludo').textContent = saludo + ', ' + nombre + '! 🚴';
+
+            const msgs = [
+                'Llevas ' + totalKm.toFixed(1) + ' km este año. ¡Sigue pedaleando!',
+                'Tienes ' + actividades.length + ' actividad(es) registrada(s). ¡Excelente ritmo!',
+                'Tu tiempo total es ' + formatTiempo(minTotal) + '. ¡El esfuerzo vale la pena!'
+            ];
+            document.getElementById('heroMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        }
+
+        // ── Banner bienvenida (solo primera vez) ────────────────────
+        if (sesion && sesion.nuevo) {
+            document.getElementById('welcomeBanner').classList.remove('d-none');
+            document.getElementById('welcomeNombre').textContent =
+                '¡Bienvenido/a, ' + sesion.nombre.split(' ')[0] + '! 🎉';
+            const usuarios = JSON.parse(localStorage.getItem('ge_usuarios') || '[]');
+            const idx = usuarios.findIndex(u => u.usuario === sesion.usuario);
+            if (idx !== -1) {
+                usuarios[idx].nuevo = false;
+                localStorage.setItem('ge_usuarios', JSON.stringify(usuarios));
+                sesion.nuevo = false;
+                localStorage.setItem('ge_sesion', JSON.stringify(sesion));
+            }
+        }
+
+        // ── KPIs con contador animado ───────────────────────────────
+        animarContador('kpiKm',          totalKm,            '', false);
+        animarContador('kpiActividades', actividades.length,  '', false);
+        animarContador('kpiHoras',       formatTiempo(minTotal), '', true);
+        animarContador('kpiSesiones',    sesionesEnt.length,  '', false);
+
+        // ── Sidebar ─────────────────────────────────────────────────
+        if (totalKm > 0) {
+            const pct = Math.min(Math.round((totalKm / 100) * 100), 100);
+            document.getElementById('statKm').textContent = totalKm.toFixed(0) + ' / 100 km';
+            document.getElementById('barKm').style.width  = pct + '%';
+        }
+        const pctActs    = Math.min(Math.round((minActs / 480) * 100), 100);
+        const pctEntreno = Math.min(Math.round((minEntreno / 480) * 100), 100);
+        document.getElementById('statTiempoActs').textContent    = formatTiempo(minActs);
+        document.getElementById('barTiempoActs').style.width     = pctActs + '%';
+        document.getElementById('statTiempoEntreno').textContent = formatTiempo(minEntreno);
+        document.getElementById('barTiempoEntreno').style.width  = pctEntreno + '%';
+        document.getElementById('tiempoTotal').textContent       = formatTiempo(minTotal);
+
+        // ── Contenido actividades ───────────────────────────────────
+        if (actividades.length === 0) {
+            document.getElementById('contenidoActividades').innerHTML = `
+                <article class="activity-card">
+                    <div class="empty-state">
+                        <i class="bi bi-bicycle"></i>
+                        <h4>Aún no tienes actividades</h4>
+                        <p class="text-muted">Registra tu primera salida y empieza a construir tu historial.</p>
+                        <button class="btn-main" style="width:auto;padding:10px 24px;"
+                            onclick="window.location.href='actividades.html'">
+                            <i class="bi bi-plus-circle me-2"></i>Agregar primera actividad
+                        </button>
+                    </div>
+                </article>`;
+        } else {
+            const ultimas = actividades.slice(0, 2);
+            document.getElementById('contenidoActividades').innerHTML = ultimas.map((a, i) => {
+                const badge = parseFloat(a.km) >= 40
+                    ? `<span class="badge bg-danger">${a.km} km</span>`
+                    : `<span class="badge bg-warning text-dark">${a.km} km</span>`;
+                const tiempoTag = a.minutos
+                    ? `<span class="badge bg-light text-dark border ms-1"><i class="bi bi-clock me-1"></i>${formatTiempo(a.minutos)}</span>`
+                    : '';
+                return `
+                    <article class="activity-card" style="animation-delay:${0.2 + i * 0.15}s">
+                        <div class="activity-header">
+                            <img src="img/usuario.png" alt="Avatar" class="mini-avatar">
+                            <div>
+                                <h3 class="mb-0">${sesion.nombre}</h3>
+                                <span class="date"><i class="bi bi-clock me-1"></i>${a.fecha || 'Reciente'} &bull; Oaxaca, Oax.</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-start mt-2">
+                            <h4 class="mb-1">${a.nombre}</h4>
+                            <div class="d-flex gap-1">${badge}${tiempoTag}</div>
+                        </div>
+                        <p class="text-muted">${a.desc || 'Sin descripción.'}</p>
+                        <div class="stats-grid">
+                            <div class="stat"><span class="label">Distancia</span><span class="value">${a.km} km</span></div>
+                            ${a.minutos ? `<div class="stat"><span class="label">Tiempo</span><span class="value">${formatTiempo(a.minutos)}</span></div>` : ''}
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-hand-thumbs-up me-1"></i>Kudos</button>
+                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-chat me-1"></i>Comentar</button>
+                            <button class="btn btn-sm btn-outline-secondary ms-auto"><i class="bi bi-share me-1"></i>Compartir</button>
+                        </div>
+                    </article>`;
+            }).join('');
+        }
+
+        // ── Cerrar sesión ───────────────────────────────────────────
+        document.getElementById('btnLogout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('ge_sesion');
+            window.location.href = 'index.html';
+        });
+
+        // ── Gráfica semanal ─────────────────────────────────────────
+        const datosKm = [0, 0, 0, 0, 0, 0, 0];
+        actividades.slice(0, 7).forEach((a, i) => { datosKm[6 - i] = parseFloat(a.km || 0); });
+
+        const ctx = document.getElementById('graficaSemana').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'km',
+                    data: datosKm,
+                    backgroundColor: datosKm.map(v => v > 0 ? '#fc4c02' : '#fc4c0260'),
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 1000, easing: 'easeOutQuart' },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} km` } }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { color: '#636e72' } },
+                    x: { grid: { display: false }, ticks: { color: '#636e72' } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
